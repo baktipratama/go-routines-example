@@ -6,23 +6,23 @@ import (
 	"time"
 )
 
+// Based on: waitgroup.go
+func workerWg(id int, wg *sync.WaitGroup) {
+	// "defer" makes sure wg.Done() is called right before this function exits.
+	defer wg.Done()
+
+	fmt.Printf("Worker %d starting\n", id)
+	time.Sleep(time.Second) // Simulate some work.
+	fmt.Printf("Worker %d done\n", id)
+}
+
 func main() {
-	fmt.Println("=== Goroutines WITH WaitGroup ===")
-
 	var wg sync.WaitGroup
-
-	// Launch 3 goroutines
 	for i := 1; i <= 3; i++ {
 		wg.Add(1)
-		go func(id int) {
-			defer wg.Done()
-			for j := 1; j <= 3; j++ {
-				fmt.Printf("Goroutine %d: Message %d\n", id, j)
-				time.Sleep(100 * time.Millisecond)
-			}
-		}(i)
+		go workerWg(i, &wg)
 	}
-
+	// This line will wait until every worker has called Done().
 	wg.Wait()
-	fmt.Println("All goroutines completed")
+	fmt.Println("All workers have finished their jobs.")
 }

@@ -7,20 +7,17 @@ import (
 func main() {
 	fmt.Println("=== Buffered Channel Example ===")
 
-	// Create a buffered channel with capacity 3
-	numbers := make(chan int, 3)
-
-	// Send data without blocking (up to buffer size)
-	numbers <- 1
-	numbers <- 2
-	numbers <- 3
+	// Based on: buffered-channel.go
+	// This channel can hold up to 2 messages before a sender has to wait.
+	messages := make(chan string, 2)
+	messages <- "hello"
+	messages <- "world"
 
 	fmt.Println("All numbers sent to buffered channel")
 
 	// Receive and print the numbers
-	fmt.Printf("Received: %d\n", <-numbers)
-	fmt.Printf("Received: %d\n", <-numbers)
-	fmt.Printf("Received: %d\n", <-numbers)
+	fmt.Printf("Received: %s\n", <-messages)
+	fmt.Printf("Received: %s\n", <-messages)
 
 	fmt.Println("Buffered channel example completed")
 }

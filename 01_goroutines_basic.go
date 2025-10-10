@@ -5,18 +5,16 @@ import (
 	"time"
 )
 
-func main() {
-	fmt.Println("=== Goroutines Basic")
+// Based on: goroutine.go
+func printMessage() {
+	fmt.Println("This ran in the background.")
+}
 
-	// Launch 3 goroutines
-	for i := 1; i <= 3; i++ {
-		go func(id int) {
-			for j := 1; j <= 3; j++ {
-				fmt.Printf("Goroutine %d: Message %d\n", id, j)
-				time.Sleep(1 * time.Second)
-			}
-		}(i)
-	}
-	time.Sleep(2 * time.Second)
-	fmt.Println("Main function ending (goroutines may or may not be done)")
+func main() {
+	go printMessage()
+	fmt.Println("This is the main function.")
+
+	// We have to pause here, otherwise the app would close
+	// before our helper goroutine gets a chance to run.
+	time.Sleep(1 * time.Second)
 }

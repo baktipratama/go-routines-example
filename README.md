@@ -55,161 +55,23 @@ go version
 
 ### Basic Examples
 
-#### 1. Basic Goroutines (`01_goroutines_basic.go`)
-**Concept**: Introduction to goroutines
+- **`01_goroutines_basic.go`** - Introduction to launching goroutines with `go` keyword
+- **`02_goroutines_with_waitgroup.go`** - Proper synchronization using `sync.WaitGroup` to wait for goroutines
+- **`03_channel_communication.go`** - Basic channel operations for sending/receiving data between goroutines
+- **`04_buffered_channels.go`** - Channels with internal buffer for asynchronous, non-blocking communication
 
-**Key Learning**:
-- How to launch goroutines with `go` keyword
+### Intermediate Examples
 
-```go
-go func(id int) {
-    // goroutine work here
-}(i)
-```
-
-#### 2. Goroutines With WaitGroup (`02_goroutines_with_waitgroup.go`)
-**Concept**: Proper goroutine synchronization with `sync.WaitGroup`
-
-**Key Learning**:
-- Using `sync.WaitGroup` to wait for goroutines to complete
-- Understanding concurrent execution with proper synchronization
-- How `defer wg.Done()` ensures cleanup
-
-```go
-go func(id int) {
-    defer wg.Done()
-    // goroutine work here
-}(i)
-wg.Wait() // Proper synchronization
-```
-
-#### 3. Channel Communication (`03_channel_communication.go`)
-**Concept**: Basic channel operations for goroutine communication
-
-**Key Learning**:
-- Creating unbuffered channels
-- Sending and receiving data through channels
-- Channel closing and range loops
-
-```go
-messages := make(chan string)
-messages <- "Hello"  // Send
-msg := <-messages    // Receive
-```
-
-#### 4. Buffered Channels (`04_buffered_channels.go`)
-**Concept**: Channels with internal buffer for asynchronous communication
-
-**Key Learning**:
-- Difference between buffered and unbuffered channels
-- Non-blocking sends up to buffer capacity
-- Buffer size considerations
-
-```go
-numbers := make(chan int, 3) // Buffer size 3
-```
-
-#### 5. Select Statement (`05_select_statement.go`)
-**Concept**: Non-blocking operations on multiple channels
-
-**Key Learning**:
-- Handling multiple channels simultaneously
-- Timeout patterns with `time.After`
-- Non-blocking channel operations
-
-```go
-select {
-case msg := <-ch1:
-    // Handle ch1
-case msg := <-ch2:
-    // Handle ch2
-case <-time.After(timeout):
-    // Handle timeout
-}
-```
-
-#### 6. Worker Pool (`06_worker_pool.go`)
-**Concept**: Distributing work among multiple worker goroutines
-
-**Key Learning**:
-- Creating a pool of worker goroutines
-- Job distribution through channels
-- Collecting results from workers
-
-```go
-for w := 1; w <= numWorkers; w++ {
-    go worker(w, jobs, results)
-}
-```
+- **`05_select_statement.go`** - Non-blocking operations on multiple channels with timeouts
+- **`06_worker_pool.go`** - Distributing work among multiple worker goroutines efficiently
+- **`07_channel_direction.go`** - Restricting channels to send-only or receive-only for type safety
 
 ### Advanced Examples
 
-#### 7. Channel Direction (`07_channel_direction.go`)
-**Concept**: Restricting channel operations with directional channels
-
-**Key Learning**:
-- Send-only channels (`chan<- type`)
-- Receive-only channels (`<-chan type`)
-- Function parameter restrictions for type safety
-
-```go
-func sendData(ch chan<- string) { } // Send-only
-func receiveData(ch <-chan string) { } // Receive-only
-```
-
-#### 8. Context Cancellation (`08_context_cancellation.go`)
-**Concept**: Graceful cancellation and timeout handling
-
-**Key Learning**:
-- Using `context.Context` for cancellation
-- Timeout contexts with `context.WithTimeout`
-- Handling cancellation in goroutines
-
-```go
-ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-defer cancel()
-```
-
-#### 9. Fan-in Pattern (`09_fan_in.go`)
-**Concept**: Merging multiple input channels into one output channel
-
-**Key Learning**:
-- Combining multiple data sources
-- Using `sync.WaitGroup` for coordination
-- Dynamic channel merging
-
-```go
-func fanIn(inputs ...<-chan string) <-chan string {
-    // Merge multiple channels into one
-}
-```
-
-#### 10. Fan-out Pattern (`10_fan_out.go`)
-**Concept**: Distributing work from one source to multiple consumers
-
-**Key Learning**:
-- Scaling processing with multiple consumers
-- Load distribution patterns
-- Concurrent processing of single data stream
-
-```go
-go consumer(jobs, results1, "Consumer 1")
-go consumer(jobs, results2, "Consumer 2")
-```
-
-#### 11. Pipeline Pattern (`11_pipeline.go`)
-**Concept**: Chaining processing stages with channels
-
-**Key Learning**:
-- Building processing pipelines
-- Stage isolation and composition
-- Stream processing patterns
-
-```go
-numbers := generateNumbers(5)
-squares := squareNumbers(numbers)
-results := formatResults(squares)
-```
+- **`08_context_cancellation.go`** - Graceful cancellation and timeout handling with context
+- **`09_fan_in.go`** - Merging multiple input channels into a single output channel
+- **`10_fan_out.go`** - Distributing work from one source to multiple consumers
+- **`11_pipeline.go`** - Chaining processing stages to build data transformation pipelines
 
 ## 🔑 Key Concepts
 
